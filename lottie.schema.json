@@ -1,0 +1,1349 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/lottie-animation-community/lottie-spec/schema/",
+    "$ref": "#/$defs/composition/animation",
+    "$defs": {
+        "assets": {
+            "all-assets": {
+                "oneOf": [
+                    {
+                        "$ref": "#/$defs/assets/precomposition"
+                    }
+                ]
+            },
+            "precomposition": {
+                "type": "object",
+                "title": "Precomposition",
+                "description": "Asset containing a composition that can be referenced by layers.",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/assets/asset"
+                    },
+                    {
+                        "$ref": "#/$defs/composition/composition"
+                    }
+                ]
+            },
+            "asset": {
+                "type": "object",
+                "title": "Asset",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "title": "ID",
+                                "description": "Unique identifier used by layers when referencing this asset",
+                                "type": "string",
+                                "default": ""
+                            },
+                            "nm": {
+                                "title": "Name",
+                                "description": "Human readable name",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id"
+                        ]
+                    }
+                ]
+            }
+        },
+        "composition": {
+            "composition": {
+                "type": "object",
+                "title": "Composition",
+                "description": "An object that contains a list of layers",
+                "properties": {
+                    "layers": {
+                        "title": "Layers",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/$defs/layers/all-layers"
+                        }
+                    }
+                },
+                "required": [
+                    "layers"
+                ]
+            },
+            "animation": {
+                "type": "object",
+                "title": "Animation",
+                "description": "Top level object, describing the animation",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/helpers/visual-object"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "fr": {
+                                "title": "Framerate",
+                                "description": "Framerate in frames per second",
+                                "type": "number"
+                            },
+                            "ip": {
+                                "title": "In Point",
+                                "description": "Frame the animation starts at (usually 0)",
+                                "type": "number"
+                            },
+                            "op": {
+                                "title": "Out Point",
+                                "description": "Frame the animation stops/loops at, which makes this the duration in frames when `ip` is 0",
+                                "type": "number"
+                            },
+                            "w": {
+                                "title": "Width",
+                                "description": "Width of the animation",
+                                "type": "integer"
+                            },
+                            "h": {
+                                "title": "Height",
+                                "description": "Height of the animation",
+                                "type": "integer"
+                            },
+                            "assets": {
+                                "title": "Assets",
+                                "type": "array",
+                                "description": "List of assets that can be referenced by layers",
+                                "items": {
+                                    "$ref": "#/$defs/assets/all-assets"
+                                }
+                            },
+                            "markers": {
+                                "title": "Markers",
+                                "description": "Markers defining named sections of the composition.",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/$defs/helpers/marker"
+                                }
+                            }
+                        },
+                        "required": [
+                            "w",
+                            "h",
+                            "fr",
+                            "op",
+                            "ip"
+                        ]
+                    },
+                    {
+                        "$ref": "#/$defs/composition/composition"
+                    }
+                ]
+            }
+        },
+        "constants": {
+            "fill-rule": {
+                "type": "integer",
+                "title": "Fill Rule",
+                "description": "Rule used to handle multiple shapes rendered with the same fill object",
+                "oneOf": [
+                    {
+                        "title": "Non Zero",
+                        "description": "Everything is colored (You can think of this as an OR)",
+                        "const": 1
+                    },
+                    {
+                        "title": "Even Odd",
+                        "description": "Colored based on intersections and path direction, can be used to create \"holes\"",
+                        "const": 2
+                    }
+                ]
+            },
+            "shape-direction": {
+                "type": "integer",
+                "title": "Shape Direction",
+                "description": "Drawing direction of the shape curve, useful for trim path",
+                "oneOf": [
+                    {
+                        "title": "Normal",
+                        "description": "Usually clockwise",
+                        "const": 1
+                    },
+                    {
+                        "title": "Reversed",
+                        "description": "Usually counter clockwise",
+                        "const": 3
+                    }
+                ]
+            },
+            "trim-multiple-shapes": {
+                "type": "integer",
+                "title": "Trim Multiple Shapes",
+                "description": "How to handle multiple shapes in trim path",
+                "oneOf": [
+                    {
+                        "title": "Individually",
+                        "const": 1
+                    },
+                    {
+                        "title": "Simultaneously",
+                        "const": 2
+                    }
+                ]
+            }
+        },
+        "helpers": {
+            "marker": {
+                "type": "object",
+                "title": "Marker",
+                "description": "Defines named portions of the composition.",
+                "properties": {
+                    "cm": {
+                        "title": "Comment",
+                        "type": "string"
+                    },
+                    "tm": {
+                        "title": "Time",
+                        "type": "number"
+                    },
+                    "dr": {
+                        "title": "Duration",
+                        "type": "number"
+                    }
+                }
+            },
+            "transform": {
+                "type": "object",
+                "title": "Transform",
+                "description": "Layer transform",
+                "allOf": [
+                    {
+                        "properties": {
+                            "a": {
+                                "title": "Anchor Point",
+                                "description": "Anchor point: a position (relative to its parent) around which transformations are applied (ie: center for rotation / scale)",
+                                "$ref": "#/$defs/properties/position"
+                            },
+                            "p": {
+                                "title": "Position",
+                                "description": "Position / Translation",
+                                "$ref": "#/$defs/properties/position"
+                            },
+                            "r": {
+                                "title": "Rotation",
+                                "description": "Rotation in degrees, clockwise",
+                                "$ref": "#/$defs/properties/value"
+                            },
+                            "s": {
+                                "title": "Scale",
+                                "description": "Scale factor, `[100, 100]` for no scaling",
+                                "$ref": "#/$defs/properties/multi-dimensional"
+                            },
+                            "o": {
+                                "title": "Opacity",
+                                "$ref": "#/$defs/properties/value"
+                            },
+                            "sk": {
+                                "title": "Skew",
+                                "description": "Skew amount as an angle in degrees",
+                                "$ref": "#/$defs/properties/value"
+                            },
+                            "sa": {
+                                "title": "Skew Axis",
+                                "description": "Direction along which skew is applied, in degrees (`0` skews along the X axis, `90` along the Y axis)",
+                                "$ref": "#/$defs/properties/value"
+                            }
+                        }
+                    }
+                ]
+            },
+            "bezier": {
+                "type": "object",
+                "title": "Bezier",
+                "description": "Cubic polybezier",
+                "properties": {
+                    "c": {
+                        "title": "Closed",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "i": {
+                        "title": "In Tangents",
+                        "type": "array",
+                        "description": "Array of points, each point is an array of coordinates.\nThese points are along the `in` tangents relative to the corresponding `v`.",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "default": []
+                            }
+                        }
+                    },
+                    "o": {
+                        "title": "Out Tangents",
+                        "type": "array",
+                        "description": "Array of points, each point is an array of coordinates.\nThese points are along the `out` tangents relative to the corresponding `v`.",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "default": []
+                            }
+                        }
+                    },
+                    "v": {
+                        "title": "Vertices",
+                        "description": "Array of points, each point is an array of coordinates.\nThese points are along the bezier path",
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "default": []
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "i",
+                    "v",
+                    "o"
+                ]
+            },
+            "int-boolean": {
+                "type": "integer",
+                "title": "Integer Boolean",
+                "description": "Represents boolean values as an integer. 0 is false, 1 is true.",
+                "default": 0,
+                "examples": [
+                    0
+                ],
+                "enum": [
+                    0,
+                    1
+                ],
+                "oneOf": [
+                    {
+                        "title": "True",
+                        "const": 1
+                    },
+                    {
+                        "title": "False",
+                        "const": 0
+                    }
+                ]
+            },
+            "color": {
+                "type": "array",
+                "title": "Color",
+                "description": "Color as a [r, g, b] array with values in [0, 1]",
+                "items": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "minItems": 3,
+                "maxItems": 4
+            },
+            "visual-object": {
+                "type": "object",
+                "title": "Visual Object",
+                "description": "",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "nm": {
+                                "title": "Name",
+                                "description": "Name, as seen from editors and the like",
+                                "type": "string"
+                            }
+                        },
+                        "required": []
+                    }
+                ]
+            }
+        },
+        "layers": {
+            "shape-layer": {
+                "type": "object",
+                "title": "Shape Layer",
+                "description": "Layer containing Shapes",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/layers/visual-layer"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Type",
+                                "description": "Layer type",
+                                "type": "integer",
+                                "const": 4
+                            },
+                            "shapes": {
+                                "title": "Shapes",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/$defs/shapes/all-shapes"
+                                }
+                            }
+                        },
+                        "required": [
+                            "ty",
+                            "shapes"
+                        ]
+                    }
+                ]
+            },
+            "null-layer": {
+                "type": "object",
+                "title": "Null Layer",
+                "description": "Layer with no data, useful to group layers together",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/layers/visual-layer"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Type",
+                                "description": "Layer type",
+                                "type": "integer",
+                                "const": 3
+                            }
+                        },
+                        "required": [
+                            "ty"
+                        ]
+                    }
+                ]
+            },
+            "visual-layer": {
+                "type": "object",
+                "title": "Visual Layer",
+                "description": "Layer used to affect visual elements",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/layers/layer"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ks": {
+                                "title": "Transform",
+                                "description": "Layer transform",
+                                "$ref": "#/$defs/helpers/transform"
+                            },
+                            "ao": {
+                                "title": "Auto Orient",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "default": 0,
+                                "description": "If 1, The layer will rotate itself to match its animated position path"
+                            }
+                        },
+                        "required": [
+                            "ks"
+                        ]
+                    }
+                ]
+            },
+            "layer": {
+                "type": "object",
+                "title": "Layer",
+                "description": "",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/helpers/visual-object"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "hd": {
+                                "title": "Hidden",
+                                "description": "Whether the layer is hidden",
+                                "type": "boolean"
+                            },
+                            "ty": {
+                                "title": "Type",
+                                "description": "Layer Type",
+                                "type": "integer"
+                            },
+                            "ind": {
+                                "title": "Index",
+                                "type": "integer",
+                                "description": "Index that can be used for parenting and referenced in expressions"
+                            },
+                            "parent": {
+                                "title": "Parent Index",
+                                "description": "Must be the `ind` property of another layer",
+                                "type": "integer"
+                            },
+                            "sr": {
+                                "title": "Time Stretch",
+                                "type": "number",
+                                "default": 1
+                            },
+                            "ip": {
+                                "title": "In Point",
+                                "description": "Frame when the layer becomes visible",
+                                "type": "number"
+                            },
+                            "op": {
+                                "title": "Out Point",
+                                "description": "Frame when the layer becomes invisible",
+                                "type": "number"
+                            },
+                            "st": {
+                                "title": "Start Time",
+                                "type": "number",
+                                "default": 0
+                            }
+                        },
+                        "required": [
+                            "ty",
+                            "st",
+                            "ip",
+                            "op"
+                        ]
+                    }
+                ]
+            },
+            "precomposition-layer": {
+                "type": "object",
+                "title": "Precomposition Layer",
+                "description": "Layer that renders a Precomposition asset",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/layers/visual-layer"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Type",
+                                "description": "Layer type",
+                                "type": "integer",
+                                "const": 0
+                            },
+                            "refId": {
+                                "title": "Reference Id",
+                                "description": "ID of the precomp as specified in the assets",
+                                "type": "string"
+                            },
+                            "w": {
+                                "title": "Width",
+                                "description": "Width of the clipping rect",
+                                "type": "integer"
+                            },
+                            "h": {
+                                "title": "Height",
+                                "description": "Height of the clipping rect",
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "ty",
+                            "refId"
+                        ]
+                    }
+                ]
+            },
+            "all-layers": {
+                "oneOf": [
+                    {
+                        "$ref": "#/$defs/layers/precomposition-layer"
+                    },
+                    {
+                        "$ref": "#/$defs/layers/null-layer"
+                    },
+                    {
+                        "$ref": "#/$defs/layers/shape-layer"
+                    }
+                ]
+            }
+        },
+        "properties": {
+            "color-value": {
+                "type": "object",
+                "title": "Color Value",
+                "description": "An animatable property that holds a Color",
+                "oneOf": [
+                    {
+                        "$comment": "Not animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 0
+                            },
+                            "k": {
+                                "title": "Static value",
+                                "$ref": "#/$defs/helpers/color"
+                            }
+                        }
+                    },
+                    {
+                        "$comment": "Animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 1
+                            },
+                            "k": {
+                                "type": "array",
+                                "title": "Keyframes",
+                                "description": "Array of keyframes",
+                                "items": {
+                                    "$ref": "#/$defs/properties/color-keyframe"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "a",
+                    "k"
+                ]
+            },
+            "multi-dimensional": {
+                "type": "object",
+                "title": "Multi Dimensional",
+                "description": "An animatable property that holds an array of numbers",
+                "oneOf": [
+                    {
+                        "$comment": "Not animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 0
+                            },
+                            "k": {
+                                "title": "Static value",
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$comment": "Animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 1
+                            },
+                            "k": {
+                                "type": "array",
+                                "title": "Keyframes",
+                                "description": "Array of keyframes",
+                                "items": {
+                                    "$ref": "#/$defs/properties/vector-keyframe"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "a",
+                    "k"
+                ]
+            },
+            "vector-keyframe": {
+                "type": "object",
+                "title": "Vector Keyframe",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/properties/base-keyframe"
+                    },
+                    {
+                        "properties": {
+                            "s": {
+                                "title": "Value",
+                                "description": "Value at this keyframe.",
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "s"
+                ]
+            },
+            "color-keyframe": {
+                "type": "object",
+                "title": "Color Keyframe",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/properties/base-keyframe"
+                    },
+                    {
+                        "properties": {
+                            "s": {
+                                "title": "Value",
+                                "description": "Value at this keyframe.",
+                                "$ref": "#/$defs/helpers/color"
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "s"
+                ]
+            },
+            "position": {
+                "type": "object",
+                "title": "Position Property",
+                "description": "An animatable property to represent a position in space",
+                "oneOf": [
+                    {
+                        "$comment": "Not animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 0
+                            },
+                            "k": {
+                                "title": "Static value",
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$comment": "Animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 1
+                            },
+                            "k": {
+                                "type": "array",
+                                "title": "Keyframes",
+                                "description": "Array of keyframes",
+                                "items": {
+                                    "$ref": "#/$defs/properties/position-keyframe"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "a",
+                    "k"
+                ]
+            },
+            "base-keyframe": {
+                "type": "object",
+                "title": "Base Keyframe",
+                "description": "A Keyframes specifies the value at a specific time and the interpolation function to reach the next keyframe.",
+                "allOf": [
+                    {
+                        "properties": {
+                            "t": {
+                                "title": "Time",
+                                "description": "Frame number",
+                                "type": "number",
+                                "default": 0
+                            },
+                            "h": {
+                                "title": "Hold",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "default": 0
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "h": {
+                                            "const": 0
+                                        }
+                                    }
+                                },
+                                {
+                                    "not": {
+                                        "required": [
+                                            "h"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "then": {
+                            "properties": {
+                                "i": {
+                                    "title": "In Tangent",
+                                    "description": "Easing tangent going into the next keyframe",
+                                    "$ref": "#/$defs/properties/easing-handle"
+                                },
+                                "o": {
+                                    "title": "Out Tangent",
+                                    "description": "Easing tangent leaving the current keyframe",
+                                    "$ref": "#/$defs/properties/easing-handle"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "t"
+                ]
+            },
+            "shape-property": {
+                "type": "object",
+                "title": "Shape Property",
+                "description": "An animatable property that holds a Bezier shape",
+                "oneOf": [
+                    {
+                        "$comment": "Not animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 0
+                            },
+                            "k": {
+                                "title": "Static value",
+                                "$ref": "#/$defs/helpers/bezier"
+                            }
+                        }
+                    },
+                    {
+                        "$comment": "Animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 1
+                            },
+                            "k": {
+                                "type": "array",
+                                "title": "Keyframes",
+                                "description": "Array of keyframes",
+                                "items": {
+                                    "$ref": "#/$defs/properties/shape-keyframe"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "a",
+                    "k"
+                ]
+            },
+            "easing-handle": {
+                "type": "object",
+                "title": "Keyframe Easing",
+                "description": "Bezier handle for keyframe interpolation",
+                "properties": {
+                    "x": {
+                        "title": "X",
+                        "description": "Time component:\n0 means start time of the keyframe,\n1 means time of the next keyframe.",
+                        "oneOf": [
+                            {
+                                "type": "array",
+                                "items": {
+                                    "type": "number",
+                                    "default": 0,
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "minItems": 1
+                            },
+                            {
+                                "type": "number",
+                                "default": 0,
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        ]
+                    },
+                    "y": {
+                        "title": "Y",
+                        "description": "Value interpolation component:\n0 means start value of the keyframe,\n1 means value at the next keyframe.",
+                        "oneOf": [
+                            {
+                                "type": "array",
+                                "items": {
+                                    "type": "number",
+                                    "default": 0,
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "minItems": 1
+                            },
+                            {
+                                "type": "number",
+                                "default": 0,
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "x",
+                    "y"
+                ]
+            },
+            "position-keyframe": {
+                "type": "object",
+                "title": "Position Keyframe",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/properties/vector-keyframe"
+                    },
+                    {
+                        "properties": {
+                            "ti": {
+                                "title": "Value In Tangent",
+                                "description": "Tangent for values (eg: moving position around a curved path)",
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "to": {
+                                "title": "Value Out Tangent",
+                                "description": "Tangent for values (eg: moving position around a curved path)",
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "shape-keyframe": {
+                "type": "object",
+                "title": "Shape Keyframe",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/properties/base-keyframe"
+                    },
+                    {
+                        "properties": {
+                            "s": {
+                                "title": "Value",
+                                "description": "Value at this keyframe.",
+                                "$ref": "#/$defs/helpers/bezier"
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "s"
+                ]
+            },
+            "value": {
+                "type": "object",
+                "title": "Value",
+                "description": "An animatable property that holds a float",
+                "oneOf": [
+                    {
+                        "$comment": "Not animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 0
+                            },
+                            "k": {
+                                "title": "Static value",
+                                "type": "number"
+                            }
+                        }
+                    },
+                    {
+                        "$comment": "Animated",
+                        "properties": {
+                            "a": {
+                                "title": "Animated",
+                                "description": "Whether the property is animated",
+                                "$ref": "#/$defs/helpers/int-boolean",
+                                "const": 1
+                            },
+                            "k": {
+                                "type": "array",
+                                "title": "Keyframes",
+                                "description": "Array of keyframes",
+                                "items": {
+                                    "$ref": "#/$defs/properties/vector-keyframe"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "required": [
+                    "a",
+                    "k"
+                ]
+            }
+        },
+        "shapes": {
+            "shape-element": {
+                "type": "object",
+                "title": "Shape Element",
+                "description": "Base class for all elements of ShapeLayer and Group",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/helpers/visual-object"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "hd": {
+                                "title": "Hidden",
+                                "description": "Whether the shape is hidden",
+                                "type": "boolean"
+                            },
+                            "ty": {
+                                "title": "Shape Type",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "ty"
+                        ]
+                    }
+                ]
+            },
+            "shape": {
+                "type": "object",
+                "title": "Shape",
+                "description": "Drawable shape",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape-element"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "d": {
+                                "title": "Direction",
+                                "description": "Direction the shape is drawn as, mostly relevant when using trim path",
+                                "$ref": "#/$defs/constants/shape-direction"
+                            }
+                        }
+                    }
+                ]
+            },
+            "ellipse": {
+                "type": "object",
+                "title": "Ellipse",
+                "description": "Ellipse shape",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Shape Type",
+                                "type": "string",
+                                "const": "el"
+                            },
+                            "p": {
+                                "title": "Position",
+                                "$ref": "#/$defs/properties/position"
+                            },
+                            "s": {
+                                "title": "Size",
+                                "$ref": "#/$defs/properties/multi-dimensional"
+                            }
+                        },
+                        "required": [
+                            "ty",
+                            "s",
+                            "p"
+                        ]
+                    }
+                ]
+            },
+            "group": {
+                "type": "object",
+                "title": "Group",
+                "description": "Shape Element that can contain other shapes",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape-element"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Shape Type",
+                                "type": "string",
+                                "const": "gr"
+                            },
+                            "np": {
+                                "title": "Number Of Properties",
+                                "type": "number"
+                            },
+                            "it": {
+                                "title": "Shapes",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/$defs/shapes/all-shapes"
+                                }
+                            }
+                        },
+                        "required": [
+                            "ty"
+                        ]
+                    }
+                ]
+            },
+            "all-shapes": {
+                "$comment": "List of valid shapes",
+                "oneOf": [
+                    {
+                        "$ref": "#/$defs/shapes/ellipse"
+                    },
+                    {
+                        "$ref": "#/$defs/shapes/fill"
+                    },
+                    {
+                        "$ref": "#/$defs/shapes/group"
+                    },
+                    {
+                        "$ref": "#/$defs/shapes/path"
+                    },
+                    {
+                        "$ref": "#/$defs/shapes/rectangle"
+                    },
+                    {
+                        "$ref": "#/$defs/shapes/transform"
+                    },
+                    {
+                        "$ref": "#/$defs/shapes/trim-path"
+                    }
+                ]
+            },
+            "trim-path": {
+                "type": "object",
+                "title": "Trim Path",
+                "description": "Trims shapes into a segment",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/modifier"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Shape Type",
+                                "type": "string",
+                                "const": "tm"
+                            },
+                            "s": {
+                                "title": "Start",
+                                "description": "Segment start",
+                                "$ref": "#/$defs/properties/value"
+                            },
+                            "e": {
+                                "title": "End",
+                                "description": "Segment end",
+                                "$ref": "#/$defs/properties/value"
+                            },
+                            "o": {
+                                "title": "Offset",
+                                "$ref": "#/$defs/properties/value"
+                            },
+                            "m": {
+                                "title": "Multiple",
+                                "description": "How to treat multiple copies",
+                                "$ref": "#/$defs/constants/trim-multiple-shapes"
+                            }
+                        },
+                        "required": [
+                            "ty",
+                            "o",
+                            "s",
+                            "e"
+                        ]
+                    }
+                ]
+            },
+            "rectangle": {
+                "type": "object",
+                "title": "Rectangle",
+                "description": "A simple rectangle shape",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Shape Type",
+                                "type": "string",
+                                "const": "rc"
+                            },
+                            "p": {
+                                "title": "Position",
+                                "description": "Center of the rectangle",
+                                "$ref": "#/$defs/properties/position"
+                            },
+                            "s": {
+                                "title": "Size",
+                                "$ref": "#/$defs/properties/multi-dimensional"
+                            },
+                            "r": {
+                                "title": "Rounded",
+                                "description": "Rounded corners radius",
+                                "$ref": "#/$defs/properties/value"
+                            }
+                        },
+                        "required": [
+                            "ty",
+                            "s",
+                            "p"
+                        ]
+                    }
+                ]
+            },
+            "transform": {
+                "type": "object",
+                "title": "Transform Shape",
+                "description": "Group transform",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape-element"
+                    },
+                    {
+                        "$ref": "#/$defs/helpers/transform"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Shape Type",
+                                "type": "string",
+                                "const": "tr"
+                            }
+                        },
+                        "required": [
+                            "ty"
+                        ]
+                    }
+                ]
+            },
+            "path": {
+                "type": "object",
+                "title": "Path",
+                "description": "Animatable Bezier curve",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Shape Type",
+                                "type": "string",
+                                "const": "sh"
+                            },
+                            "ks": {
+                                "title": "Shape",
+                                "description": "Bezier path",
+                                "$ref": "#/$defs/properties/shape-property"
+                            }
+                        },
+                        "required": [
+                            "ty",
+                            "ks"
+                        ]
+                    }
+                ]
+            },
+            "fill": {
+                "type": "object",
+                "title": "Fill",
+                "description": "Solid fill color",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape-style"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "ty": {
+                                "title": "Shape Type",
+                                "type": "string",
+                                "const": "fl"
+                            },
+                            "c": {
+                                "title": "Color",
+                                "$ref": "#/$defs/properties/color-value"
+                            },
+                            "r": {
+                                "title": "Fill Rule",
+                                "$ref": "#/$defs/constants/fill-rule"
+                            }
+                        },
+                        "required": [
+                            "ty",
+                            "c"
+                        ]
+                    }
+                ]
+            },
+            "modifier": {
+                "type": "object",
+                "title": "Modifier",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape-element"
+                    }
+                ]
+            },
+            "shape-style": {
+                "type": "object",
+                "title": "Shape Style",
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/shapes/shape-element"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "o": {
+                                "title": "Opacity",
+                                "description": "Opacity, 100 means fully opaque",
+                                "$ref": "#/$defs/properties/value"
+                            }
+                        },
+                        "required": [
+                            "o"
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

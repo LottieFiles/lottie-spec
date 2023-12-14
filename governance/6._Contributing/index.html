@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Documentation for the Lottie animation format">
+    
+    <link rel="canonical" href="https://lottie-animation-community.github.io/lottie-spec/governance/6._Contributing/">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    
+    <title>Community Specification Contribution Policy 1.0 - Lottie Specs</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../css/base.min.css" rel="stylesheet">
+    <link href="../../css/cinder.min.css" rel="stylesheet">
+
+     
+
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+    
+     
+
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.js'></script>
+
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="../..">Lottie Specs</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Format <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../specs/composition/">Composition</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../specs/layers/">Layers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../specs/shapes/">Shapes</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../specs/assets/">Assets</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../specs/constants/">Enumerations</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../specs/helpers/">Helpers</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../specs/properties/">Properties</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../specs/schema/">JSON Schema</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Community <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../0._CS_Contributor_License_Agreement/">Community Specification Contributor License Agreement 1.0</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../1._Community_Specification_License-v1/">Community Specification License 1.0</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../2._Scope/">Scope</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../3._Notices/">Notices</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../4._License/">Licenses</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../5._Governance/">Community Specification Governance Policy 1.0</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Community Specification Contribution Policy 1.0</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../8._Code_of_Conduct/">Contributor Covenant Code of Conduct</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../FAQ/">FAQ</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Notices/">Notices</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../5._Governance/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../8._Code_of_Conduct/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/lottie-animation-community/lottie-spec/edit/main/docs/governance/6._Contributing.md"><i class="fab fa-github"></i> Edit on GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#community-specification-contribution-policy-10">Community Specification Contribution Policy 1.0</a></li>
+            <li class="second-level"><a href="#1-contribution-guidelines">1. Contribution Guidelines.</a></li>
+                
+            <li class="second-level"><a href="#2-issue-lifecycle">2. Issue Lifecycle.</a></li>
+                
+            <li class="second-level"><a href="#3-how-to-contribute-a-patch">3. How to Contribute a Patch.</a></li>
+                
+            <li class="second-level"><a href="#4-pull-request-workflow">4. Pull Request Workflow.</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="community-specification-contribution-policy-10">Community Specification Contribution Policy 1.0</h1>
+<p>This document provides the contribution policy for specifications and other
+documents developed using the Community Specification process in a repository
+(each a “Working Group”). Additional or alternate contribution policies may be
+adopted and documented by the Working Group.</p>
+<h2 id="1-contribution-guidelines">1. Contribution Guidelines.</h2>
+<p>This Working Group accepts contributions via pull requests. The following
+section outlines the process for merging contributions to the specification</p>
+<p><strong>1.1. Issues.</strong> Issues are used as the primary method for tracking anything to
+do with this specification Working Group.</p>
+<p><strong>1.1.1. Issue Types.</strong> There are three types of issues (each with their own
+corresponding label):</p>
+<p><strong>1.1.1.1. Discussion.</strong> These are support or functionality inquiries that we
+want to have a record of for future reference. Depending on the discussion,
+these can turn into "Spec Change" issues.</p>
+<p><strong>1.1.1.2. Proposal.</strong> Used for items that propose a new ideas or functionality
+that require a larger discussion. This allows for feedback from others before a
+specification change is actually written. All issues that are proposals should
+both have a label and an issue title of "Proposal: [the rest of the title]." A
+proposal can become a "Spec Change" and does not require a milestone.</p>
+<p><strong>1.1.1.3. Spec Change:</strong> These track specific spec changes and ideas until they
+are complete. They can evolve from "Proposal" and "Discussion" items, or can be
+submitted individually depending on the size. Each spec change should be placed
+into a milestone.</p>
+<h2 id="2-issue-lifecycle">2. Issue Lifecycle.</h2>
+<p>The issue lifecycle is mainly driven by the Maintainer. All issue types follow
+the same general lifecycle. Differences are noted below.</p>
+<p><strong>2.1. Issue Creation.</strong></p>
+<p><strong>2.2. Triage.</strong></p>
+<p>o The Editor in charge of triaging will apply the proper labels for the issue.
+This includes labels for priority, type, and metadata.</p>
+<p>o (If needed) Clean up the title to succinctly and clearly state the issue. Also
+ensure that proposals are prefaced with "Proposal".</p>
+<p><strong>2.3. Discussion.</strong></p>
+<p>o "Spec Change" issues should be connected to the pull request that resolves it.</p>
+<p>o Whoever is working on a "Spec Change" issue should either assign the issue to
+themselves or make a comment in the issue saying that they are taking it.</p>
+<p>o "Proposal" and "Discussion" issues should stay open until resolved.</p>
+<p><strong>2.4. Issue Closure.</strong></p>
+<h2 id="3-how-to-contribute-a-patch">3. How to Contribute a Patch.</h2>
+<p>The Working Group uses pull requests to track changes. To submit a change to the
+specification:</p>
+<p><strong>3.1 Fork the Repo, modify the Specification to Address the Issue.</strong></p>
+<p><strong>3.2. Submit a Pull Request.</strong></p>
+<h2 id="4-pull-request-workflow">4. Pull Request Workflow.</h2>
+<p>The next section contains more information on the workflow followed for Pull
+Requests.</p>
+<p><strong>4.1. Pull Request Creation.</strong></p>
+<p>o We welcome pull requests that are currently in progress. They are a great way
+to keep track of important work that is in-flight, but useful for others to see.
+If a pull request is a work in progress, it should be prefaced with "WIP:
+[title]". You should also add the wip label Once the pull request is ready for
+review, remove "WIP" from the title and label.</p>
+<p>o It is preferred, but not required, to have a pull request tied to a specific
+issue. There can be circumstances where if it is a quick fix then an issue might
+be overkill. The details provided in the pull request description would suffice
+in this case.</p>
+<p><strong>4.2. Triage</strong></p>
+<p>o The Editor in charge of triaging will apply the proper labels for the issue.
+This should include at least a size label, a milestone, and awaiting review once
+all labels are applied.</p>
+<p><strong>4.3. Reviewing/Discussion.</strong></p>
+<p>o All reviews will be completed using the review tool.</p>
+<p>o A "Comment" review should be used when there are questions about the spec that
+should be answered, but that don't involve spec changes. This type of review
+does not count as approval.</p>
+<p>o A "Changes Requested" review indicates that changes to the spec need to be
+made before they will be merged.</p>
+<p>o Reviewers should update labels as needed (such as needs rebase).</p>
+<p>o When a review is approved, the reviewer should add LGTM as a comment.</p>
+<p>o Final approval is required by a designated Editor. Merging is blocked without
+this final approval. Editors will factor reviews from all other reviewers into
+their approval process.</p>
+<p><strong>4.4. Responsive.</strong> Pull request owner should try to be responsive to comments
+by answering questions or changing text. Once all comments have been addressed,
+the pull request is ready to be merged.</p>
+<p><strong>4.5. Merge or Close.</strong></p>
+<p>o A pull request should stay open until a Maintainer has marked the pull request
+as approved.</p>
+<p>o Pull requests can be closed by the author without merging.</p>
+<p>o Pull requests may be closed by a Maintainer if the decision is made that it is
+not going to be merged.</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+
+      <!-- default is to include highlightjs -->
+    
+    
+
+    <script>var base_url = "../.."</script>
+    
+    <script src="../../js/base.js"></script>
+    <script src="../../search/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                if ( block.classList.length != 0 )
+                    hljs.highlightBlock(block);
+            });
+        });
+    </script>
+
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
